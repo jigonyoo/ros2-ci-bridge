@@ -1,0 +1,30 @@
+How to reproduce this sample_output/ directory
+================================================
+
+Offline analysis-layer demo (what this repo actually verifies here):
+
+    cd ros2-ci-bridge
+    python3 run_demo.py
+
+This regenerates data/logs_green/ and data/logs_broken/ deterministically
+(data/generate_logs.py, no randomness) and runs the ci/ analysis layer
+over both, writing this directory. Running it twice produces
+byte-identical files -- see tests/test_ci_bridge.py's md5 determinism
+test.
+
+Unit tests:
+
+    python3 -m unittest discover -s tests -v
+
+Docker Compose (same offline analysis, in a container with no network):
+
+    docker compose run --rm analyze
+
+The real, heavy ROS2 build (NOT run by this demo or by the unit tests):
+
+    docker build -t ros2-ci-bridge-build -f Dockerfile .
+
+...which is exactly what .github/workflows/ci.yml runs on every push --
+a real colcon build + colcon test inside ros:humble-ros-base, with the
+resulting logs fed back into this same ci/ analysis layer and uploaded
+as a workflow artifact. See README.md "How to run" and "Limitations".

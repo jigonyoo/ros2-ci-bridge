@@ -1,0 +1,6 @@
+--- nav_bridge_core ---
+Summary: 6 tests, 0 errors, 0 failures, 0 skipped
+--- sensor_fusion_utils ---
+Summary: 9 tests, 0 errors, 0 failures, 0 skipped
+--- diagnostics_reporter ---
+Summary: 4 tests, 0 errors, 0 failures, 0 skipped

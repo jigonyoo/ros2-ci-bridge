@@ -1,0 +1,10 @@
+--- nav_bridge_core ---
+Summary: 6 tests, 0 errors, 0 failures, 0 skipped
+--- sensor_fusion_utils ---
+Summary: 0 tests, 1 errors, 0 failures, 0 skipped
+ERROR: sensor_fusion_utils.build_precondition (package failed to build; tests were not run)
+--- diagnostics_reporter (attempt 1) ---
+Summary: 4 tests, 0 errors, 1 failures, 0 skipped
+FAILURE: diagnostics_reporter.test_reporting_latency (assertion failed: elapsed 0.021s > 0.020s threshold)
+--- diagnostics_reporter (attempt 2) ---
+Summary: 4 tests, 0 errors, 0 failures, 0 skipped

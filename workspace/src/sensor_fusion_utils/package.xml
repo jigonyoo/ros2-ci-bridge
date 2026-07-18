@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>sensor_fusion_utils</name>
+  <version>0.1.0</version>
+  <description>
+    Sample sensor-fusion utility package used as a realistic CI target for
+    the ROS2 CI &amp; Build-Health Bridge portfolio sample.
+  </description>
+  <maintainer email="jigondaniel1224@gmail.com">Jigon Yoo</maintainer>
+  <license>MIT</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend>rclcpp</depend>
+  <depend>sensor_msgs</depend>
+  <!--
+    pcl_fusion_extras is intentionally NOT declared as a rosdep-resolvable
+    key in this sample workspace. It exists to give the synthetic "broken"
+    scenario in data/generate_logs.py a realistic-looking missing-dependency
+    story to parse -- see SCHEMA.md and README.md.
+  -->
+  <depend>pcl_fusion_extras</depend>
+
+  <test_depend>ament_lint_auto</test_depend>
+  <test_depend>ament_lint_common</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

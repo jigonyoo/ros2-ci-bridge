@@ -1,0 +1,77 @@
+name: ros2-ci-bridge
+
+# Builds the sample ROS2 workspace in Docker, runs colcon build + colcon
+# test for real, then hands the resulting logs to the offline Python
+# analysis layer (ci/) and uploads the four-section build-health report
+# as a workflow artifact.
+#
+# This is the "heavy build actually runs in CI" half of the honesty split
+# described in README.md -- the repo's local demo (run_demo.py) instead
+# verifies the analysis layer offline against pre-generated logs, the way
+# sample #1 verifies its parser against a synthetic bag export.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build-and-analyze:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        ros_distro: [humble]
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build workspace image (colcon build + colcon test)
+        run: |
+          docker build \
+            --build-arg ROS_DISTRO=${{ matrix.ros_distro }} \
+            -t ros2-ci-bridge-build:${{ matrix.ros_distro }} \
+            -f Dockerfile .
+
+      - name: Extract build/test logs from the image
+        run: |
+          mkdir -p ci_logs
+          container_id=$(docker create ros2-ci-bridge-build:${{ matrix.ros_distro }})
+          docker cp "$container_id":/workspace/build_log.txt ci_logs/build_log.txt
+          docker cp "$container_id":/workspace/test_log.txt ci_logs/test_log.txt
+          docker rm "$container_id"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run offline analysis layer on the real CI logs
+        run: |
+          mkdir -p ci_report
+          python3 -m ci.run \
+            --logs-dir ci_logs \
+            --out-dir ci_report \
+            --dockerfile Dockerfile \
+            --workspace-src workspace/src \
+            --scenario-name "ci-run-${{ matrix.ros_distro }}-${{ github.sha }}"
+
+      - name: Show report summary
+        run: cat ci_report/build_health_report.md
+
+      - name: Upload build-health report
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-health-report-${{ matrix.ros_distro }}
+          path: |
+            ci_report/build_health_report.md
+            ci_report/findings.csv
+            ci_logs/build_log.txt
+            ci_logs/test_log.txt
+
+      - name: Run offline unit tests (parser + report correctness)
+        run: python3 -m unittest discover -s tests -v

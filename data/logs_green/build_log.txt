@@ -1,0 +1,7 @@
+Starting >>> nav_bridge_core
+Starting >>> sensor_fusion_utils
+Starting >>> diagnostics_reporter
+Finished <<< nav_bridge_core [8.10s]
+Finished <<< sensor_fusion_utils [11.40s]
+Finished <<< diagnostics_reporter [4.20s]
+Summary: 3 packages finished [11.9s]

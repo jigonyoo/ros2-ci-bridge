@@ -1,0 +1,20 @@
+Starting >>> nav_bridge_core
+Starting >>> sensor_fusion_utils
+Starting >>> diagnostics_reporter
+--- stderr: nav_bridge_core
+CMake Warning at CMakeLists.txt:42 (message):
+  Deprecated API tf::TransformListener used; migrate to tf2 before
+  the next distro upgrade.
+---
+WARNING: non-reproducible timestamp detected in nav_bridge_core build artifact (mtime varies between runs)
+Finished <<< nav_bridge_core [8.30s]
+--- stderr: sensor_fusion_utils
+CMake Error at CMakeLists.txt:17 (find_package):
+  Could not find a package configuration file provided by "custom_msgs"
+---
+ERROR: the following rosdep keys could not be resolved for package 'sensor_fusion_utils': ['libpcl-fusion-dev']
+Failed   <<< sensor_fusion_utils [3.10s, exited with code 2]
+Finished <<< diagnostics_reporter [4.50s]
+Summary: 2 packages finished [8.5s]
+  1 package failed: sensor_fusion_utils
+  1 package had stderr output: nav_bridge_core, sensor_fusion_utils

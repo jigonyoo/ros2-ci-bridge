@@ -1,0 +1,9 @@
+# The core analysis layer (ci/), run_demo.py, data/generate_logs.py, and
+# tests/ use only the Python 3 standard library. Nothing in this file is
+# required to run the offline demo or the test suite.
+#
+# Optional extras (not required, not imported by default):
+#   openai>=1.0   # only if you wire up an optional LLM-assisted summary
+#                 # pass on top of the report; the core report generation
+#                 # in ci/report.py never depends on this and runs fully
+#                 # offline either way.

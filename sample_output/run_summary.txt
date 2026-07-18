@@ -1,0 +1,19 @@
+ROS2 CI & Build-Health Bridge -- run_demo.py summary
+========================================================
+
+Scenario: green (clean green build)
+  packages discovered: 3, built ok: 3, failed: 0
+  tests: 19 total, 0 errors, 0 failures, 0 skipped
+  candidate flaky tests: 0
+  findings emitted: 8
+  report md5: c3280360178073695b7344077e88615c
+
+Scenario: broken (broken build (missing dependency + candidate-flaky test + timestamp warning))
+  packages discovered: 3, built ok: 2, failed: 1
+  failed packages: sensor_fusion_utils
+  tests: 10 total, 1 errors, 0 failures, 0 skipped
+  candidate flaky tests: 1
+  findings emitted: 18
+  report md5: a6b1207b4120a6191fac13c42c63a280
+
+Only the 'broken' scenario's full report and findings.csv are shipped in this sample_output/ directory (it is the illustrative one). The 'green' scenario above is included in this summary for contrast: it shows the same analysis layer producing an almost-empty Likely/Unverified/Additional-data-required set when the underlying logs don't contain anything to hedge about.

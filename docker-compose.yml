@@ -1,0 +1,33 @@
+# Two very different services on purpose:
+#
+#   build:    the real, heavy ROS2 workspace build + colcon test. This is
+#             what actually needs ros:humble-ros-base and runs in CI.
+#
+#   analyze:  the offline Python analysis layer from ci/. Stdlib only, no
+#             ROS2, no network -- network_mode: none is set below to make
+#             that guarantee explicit and enforced, not just claimed.
+#
+# See README.md "How to run" for the honest split between the two.
+
+services:
+  build:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ros2-ci-bridge-build:local
+    container_name: ros2_ci_bridge_build
+    volumes:
+      - ./out:/workspace/out
+    command: >
+      bash -c "cp build_log.txt test_log.txt /workspace/out/ 2>/dev/null || true"
+
+  analyze:
+    image: python:3.11-slim
+    container_name: ros2_ci_bridge_analyze
+    network_mode: none
+    working_dir: /repo
+    volumes:
+      - .:/repo:ro
+      - ./sample_output:/repo/sample_output
+    command: >
+      python3 run_demo.py
