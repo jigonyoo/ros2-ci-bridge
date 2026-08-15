@@ -1,11 +1,19 @@
 # ROS2 CI & Build-Health Bridge
 
-A freelance data/robotics-ops sample. Given a ROS2 package workspace that
-builds under `colcon` in CI, this repo provides (a) a reproducible Docker
-build + GitHub Actions recipe that runs `colcon build` and `colcon test`,
-and (b) — the actual value on offer — an offline Python layer that parses
-the resulting build/test logs into a structured, evidence-graded
-**build-health report**. This tool only claims what it can measure.
+Parses `colcon` build and test logs into a structured, evidence-graded
+**build-health report**: which packages were discovered, built, or failed,
+per-package warning counts, missing-dependency lines (CMake `find_package`
+failures and unresolved `rosdep` keys), pass/fail/error/skip counts per
+package, candidate flaky tests that failed in one attempt and passed in a
+later one, and reproducibility signals such as whether the Docker base image
+is pinned by digest or only by tag. Every finding lands in exactly one of
+four buckets -- confirmed evidence, likely causes, unverified hypotheses,
+additional data required -- carries an `evidence` field, and every
+Likely/Unverified item is hedged, with a test asserting the report never
+emits an unhedged root-cause sentence. The repo also ships a reproducible
+Docker build + GitHub Actions recipe that runs `colcon build` and `colcon
+test`, but the offline analysis layer is the actual value on offer: this
+tool only claims what it can measure.
 
 This is sample #2 in a robotics-ops bridge portfolio series. Sample #1
 ("ROS2 Bag Data Audit & Anomaly Report") audits recorded bag data with the
