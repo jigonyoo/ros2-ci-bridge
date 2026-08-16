@@ -15,14 +15,6 @@ Docker build + GitHub Actions recipe that runs `colcon build` and `colcon
 test`, but the offline analysis layer is the actual value on offer: this
 tool only claims what it can measure.
 
-This is sample #2 in a robotics-ops bridge portfolio series. Sample #1
-("ROS2 Bag Data Audit & Anomaly Report") audits recorded bag data with the
-same four-section method this repo uses for CI logs. The author is a
-data/automation engineer who builds verification and reporting tooling
-around ROS2 pipelines — **not** a ROS2 field/runtime engineer, and this
-repo does not claim to fix robot code or diagnose runtime robotics
-behavior. See Limitations below.
-
 ## The problem
 
 Two failure modes are both common and both bad:
@@ -208,6 +200,15 @@ Read this before trusting anything this tool outputs.
   a mis-attributed hypothesis; that's exactly why it's Likely, not
   Confirmed, and why the entry states what would confirm it.
 
-## License
+## About this sample
 
+This is sample #2 in a robotics-ops bridge portfolio series. Sample #1
+("ROS2 Bag Data Audit & Anomaly Report") audits recorded bag data with the
+same four-section method this repo uses for CI logs. The author is a
+data/automation engineer who builds verification and reporting tooling
+around ROS2 pipelines — **not** a ROS2 field/runtime engineer, and this
+repo does not claim to fix robot code or diagnose runtime robotics
+behavior. See Limitations below.
+
+## License
 MIT. See `LICENSE`.
